@@ -2,6 +2,7 @@ package com.udalmik.shop.promo;
 
 import lombok.AllArgsConstructor;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 
@@ -9,6 +10,10 @@ import java.util.Optional;
 public class StaticPromosService implements PromosService {
 
     private final Map<Long, ItemPromo> itemPromoMap;
+
+    public StaticPromosService() {
+        this.itemPromoMap = Collections.emptyMap();
+    }
 
     @Override
     public Optional<ItemPromo> getItemPromo(long itemId) {
