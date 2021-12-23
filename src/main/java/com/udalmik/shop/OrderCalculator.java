@@ -6,6 +6,7 @@ import com.udalmik.shop.promo.PromosService;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 
@@ -35,6 +36,7 @@ public class OrderCalculator {
 
     @Getter
     @Builder
+    @ToString
     public static class TotalOrder {
         private final BigDecimal totalAmount;
         private final BigDecimal totalDiscount;
