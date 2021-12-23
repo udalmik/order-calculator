@@ -9,7 +9,7 @@ public class ThirdFreePromo implements ItemPromo {
     public BigDecimal getDiscount(Purchase purchase) {
         final var price = purchase.getItem().getPrice();
         final var quantity = purchase.getQuantity();
-        final var freeItems = quantity / 3;
-        return price.multiply(BigDecimal.valueOf(freeItems));
+        final var freeItemsCount = quantity / 3;
+        return price.multiply(BigDecimal.valueOf(freeItemsCount));
     }
 }
