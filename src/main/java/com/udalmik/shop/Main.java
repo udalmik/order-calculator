@@ -42,6 +42,8 @@ public class Main {
                 cookiesAndCream.getId(), new ThirdHalfPricePromo()
         ));
 
+        // Order Calculator
+
         final var orderCalculator = new OrderCalculator(promosService);
 
         final var totalOrder = orderCalculator.calculateTotalOrder(PurchaseOrder.builder()
