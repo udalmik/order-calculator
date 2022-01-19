@@ -17,7 +17,7 @@ public class TestData {
     }
 
     public static Item createItem(long id, BigDecimal price) {
-        return Item.builder().id(id).name("Test" + id).price(price).build();
+        return new Item(id, "Test" + id, price);
     }
 
     public static Item createItemOfPrice(BigDecimal price) {

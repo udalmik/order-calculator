@@ -1,8 +1,5 @@
-package com.udalmik.shop.promo;
+package com.udalmik.shop.promo
 
-import java.util.Optional;
-
-public interface PromosService {
-
-    Optional<ItemPromo> getItemPromo(long itemId);
+interface PromosService {
+    fun getItemPromo(itemId: Long): ItemPromo?
 }

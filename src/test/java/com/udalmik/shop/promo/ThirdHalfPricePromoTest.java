@@ -16,11 +16,7 @@ public class ThirdHalfPricePromoTest {
 
     @Test
     public void testNoDiscountWhenTwoItems() {
-        final var purchase = Purchase.builder()
-                .quantity(2)
-                .item(createItemOfPrice(BigDecimal.ONE))
-                .build();
-
+        final var purchase = new Purchase(createItemOfPrice(BigDecimal.ONE), 2);
         assertEquals(
                 BigDecimal.ZERO.setScale(DEFAULT_SCALE, DEFAULT_ROUNDING_MODE),
                 itemPromo.getDiscount(purchase));
@@ -28,11 +24,7 @@ public class ThirdHalfPricePromoTest {
 
     @Test
     public void testDiscountWhenOneWithDiscount() {
-        final var purchase = Purchase.builder()
-                .quantity(3)
-                .item(createItemOfPrice(BigDecimal.valueOf(2)))
-                .build();
-
+        final var purchase = new Purchase(createItemOfPrice(BigDecimal.valueOf(2)), 3);
         assertEquals(
                 BigDecimal.ONE.setScale(DEFAULT_SCALE, DEFAULT_ROUNDING_MODE),
                 itemPromo.getDiscount(purchase));
@@ -40,11 +32,7 @@ public class ThirdHalfPricePromoTest {
 
     @Test
     public void testMultipleDiscounts() {
-        final var purchase = Purchase.builder()
-                .quantity(7)
-                .item(createItemOfPrice(BigDecimal.ONE))
-                .build();
-
+        final var purchase = new Purchase(createItemOfPrice(BigDecimal.ONE), 7);
         assertEquals(
                 BigDecimal.ONE.setScale(DEFAULT_SCALE, DEFAULT_ROUNDING_MODE),
                 itemPromo.getDiscount(purchase));

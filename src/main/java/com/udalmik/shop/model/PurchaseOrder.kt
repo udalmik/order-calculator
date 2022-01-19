@@ -1,12 +1,3 @@
-package com.udalmik.shop.model;
+package com.udalmik.shop.model
 
-import lombok.Builder;
-import lombok.Getter;
-
-import java.util.List;
-
-@Getter
-@Builder
-public class PurchaseOrder {
-    private final List<Purchase> purchases;
-}
+data class PurchaseOrder(val purchases: List<Purchase>)

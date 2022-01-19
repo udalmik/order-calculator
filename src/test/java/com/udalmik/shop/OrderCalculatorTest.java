@@ -8,13 +8,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
-import java.util.Optional;
 
 import static com.udalmik.shop.TestData.createItemsOfPrices;
 import static org.junit.Assert.assertEquals;
@@ -34,15 +32,12 @@ public class OrderCalculatorTest {
     @Test
     public void testOrderWithoutPromo() {
         var items = createItemsOfPrices(List.of(BigDecimal.ONE, BigDecimal.ONE));
-        var purchaseOrder = PurchaseOrder.builder()
-                .purchases(
-                    List.of(
-                            Purchase.builder().item(items.get(0)).quantity(2).build(),
-                            Purchase.builder().item(items.get(1)).quantity(2).build()
-                    )
-                )
-                .build();
-        when(promosService.getItemPromo(anyLong())).thenReturn(Optional.empty());
+        var purchaseOrder = new PurchaseOrder(List.of(
+                new Purchase(items.get(0), 2),
+                new Purchase(items.get(1), 2))
+        );
+
+        when(promosService.getItemPromo(anyLong())).thenReturn(null);
 
         var totalOrder = orderCalculator.calculateTotalOrder(purchaseOrder);
 
@@ -57,12 +52,8 @@ public class OrderCalculatorTest {
                 order.getTotalPrice().divide(BigDecimal.valueOf(2), RoundingMode.HALF_EVEN);
         var item = createItemsOfPrices(List.of(BigDecimal.ONE)).get(0);
         var quantity = 10;
-        var purchaseOrder = PurchaseOrder.builder()
-                .purchases(
-                    List.of(Purchase.builder().item(item).quantity(quantity).build())
-                )
-                .build();
-        when(promosService.getItemPromo(eq(item.getId()))).thenReturn(Optional.of(halfPricePromo));
+        var purchaseOrder = new PurchaseOrder(List.of(new Purchase(item, quantity)));
+        when(promosService.getItemPromo(eq(item.getId()))).thenReturn(halfPricePromo);
 
         var totalOrder = orderCalculator.calculateTotalOrder(purchaseOrder);
 

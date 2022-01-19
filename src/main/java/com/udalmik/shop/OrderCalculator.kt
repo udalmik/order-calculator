@@ -1,47 +1,30 @@
-package com.udalmik.shop;
+package com.udalmik.shop
 
-import com.udalmik.shop.model.Purchase;
-import com.udalmik.shop.model.PurchaseOrder;
-import com.udalmik.shop.promo.PromosService;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
+import com.udalmik.shop.model.Purchase
+import com.udalmik.shop.model.PurchaseOrder
+import com.udalmik.shop.promo.PromosService
+import java.math.BigDecimal
 
-import java.math.BigDecimal;
-
-@AllArgsConstructor
-public class OrderCalculator {
-
-    private final PromosService promosService;
-
-    public TotalOrder calculateTotalOrder(PurchaseOrder purchaseOrder) {
-        var totalAmount = purchaseOrder.getPurchases().stream()
-                .map(Purchase::getTotalPrice)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-        var totalDiscount = purchaseOrder.getPurchases().stream()
-                .map(this::calculateDiscount)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-        return TotalOrder.builder()
-                .totalAmount(totalAmount)
-                .totalDiscount(totalDiscount)
-                .build();
+class OrderCalculator(private val promosService: PromosService) {
+    fun calculateTotalOrder(purchaseOrder: PurchaseOrder): TotalOrder {
+        val totalAmount = purchaseOrder.purchases.stream()
+                .map(Purchase::totalPrice)
+                .reduce(BigDecimal.ZERO) { obj: BigDecimal, augend: BigDecimal? -> obj.add(augend) }
+        val totalDiscount = purchaseOrder.purchases.stream()
+                .map { purchase: Purchase -> calculateDiscount(purchase) }
+                .reduce(BigDecimal.ZERO) { obj: BigDecimal, augend: BigDecimal? -> obj.add(augend) }
+        return TotalOrder(totalAmount, totalDiscount)
     }
 
-    private BigDecimal calculateDiscount(Purchase purchase) {
-        return promosService.getItemPromo(purchase.getItem().getId())
-                .map(itemPromo -> itemPromo.getDiscount(purchase))
-                .orElse(BigDecimal.ZERO);
+    private fun calculateDiscount(purchase: Purchase): BigDecimal {
+        return promosService
+                .getItemPromo(purchase.item.id)
+                ?.getDiscount(purchase) ?: BigDecimal.ZERO
     }
 
-    @Getter
-    @Builder
-    @ToString
-    public static class TotalOrder {
-        private final BigDecimal totalAmount;
-        private final BigDecimal totalDiscount;
-        public BigDecimal getTotalPay() {
-            return getTotalAmount().subtract(getTotalDiscount());
-        }
+    data class TotalOrder(val totalAmount: BigDecimal, val totalDiscount: BigDecimal) {
+        val totalPay: BigDecimal
+            get() = this.totalAmount.subtract(this.totalDiscount)
     }
+
 }

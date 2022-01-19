@@ -1,14 +1,5 @@
-package com.udalmik.shop.model;
+package com.udalmik.shop.model
 
-import lombok.Builder;
-import lombok.Getter;
+import java.math.BigDecimal
 
-import java.math.BigDecimal;
-
-@Getter
-@Builder
-public class Item {
-    private final long id;
-    private final String name;
-    private final BigDecimal price;
-}
+data class Item(val id: Long = 0, val name: String, val price: BigDecimal)

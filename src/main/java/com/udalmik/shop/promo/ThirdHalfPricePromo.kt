@@ -1,20 +1,16 @@
-package com.udalmik.shop.promo;
+package com.udalmik.shop.promo
 
-import com.udalmik.shop.model.Purchase;
+import com.udalmik.shop.CalculatorConstants
+import com.udalmik.shop.model.Purchase
+import java.math.BigDecimal
 
-import java.math.BigDecimal;
-
-import static com.udalmik.shop.CalculatorConstants.DEFAULT_ROUNDING_MODE;
-import static com.udalmik.shop.CalculatorConstants.DEFAULT_SCALE;
-
-public class ThirdHalfPricePromo implements ItemPromo {
-    @Override
-    public BigDecimal getDiscount(Purchase purchase) {
-        final var price = purchase.getItem().getPrice();
-        final var quantity = purchase.getQuantity();
-        final var halfPriceCount = quantity / 3;
-        return price.setScale(DEFAULT_SCALE, DEFAULT_ROUNDING_MODE)
-                .divide(BigDecimal.valueOf(2), DEFAULT_ROUNDING_MODE)
-                .multiply(BigDecimal.valueOf(halfPriceCount));
+class ThirdHalfPricePromo : ItemPromo {
+    override fun getDiscount(purchase: Purchase): BigDecimal? {
+        val price = purchase.item.price
+        val quantity = purchase.quantity
+        val halfPriceCount = quantity / 3
+        return price.setScale(CalculatorConstants.DEFAULT_SCALE, CalculatorConstants.DEFAULT_ROUNDING_MODE)
+                .divide(BigDecimal.valueOf(2), CalculatorConstants.DEFAULT_ROUNDING_MODE)
+                .multiply(BigDecimal.valueOf(halfPriceCount))
     }
 }

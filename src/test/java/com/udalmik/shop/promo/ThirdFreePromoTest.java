@@ -14,31 +14,19 @@ public class ThirdFreePromoTest {
 
     @Test
     public void testNoDiscountWhenTwoItems() {
-        final var purchase = Purchase.builder()
-                .quantity(2)
-                .item(createItemOfPrice(BigDecimal.ONE))
-                .build();
-
+        final var purchase = new Purchase(createItemOfPrice(BigDecimal.ONE), 2);
         assertEquals(BigDecimal.ZERO, itemPromo.getDiscount(purchase));
     }
 
     @Test
     public void testDiscountWhenOneFree() {
-        final var purchase = Purchase.builder()
-                .quantity(3)
-                .item(createItemOfPrice(BigDecimal.ONE))
-                .build();
-
+        final var purchase = new Purchase(createItemOfPrice(BigDecimal.ONE), 3);
         assertEquals(BigDecimal.ONE, itemPromo.getDiscount(purchase));
     }
 
     @Test
     public void testMultipleDiscounts() {
-        final var purchase = Purchase.builder()
-                .quantity(7)
-                .item(createItemOfPrice(BigDecimal.ONE))
-                .build();
-
+        final var purchase = new Purchase(createItemOfPrice(BigDecimal.ONE), 7);
         assertEquals(BigDecimal.valueOf(2), itemPromo.getDiscount(purchase));
     }
 }
