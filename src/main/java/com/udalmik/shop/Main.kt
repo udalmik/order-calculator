@@ -8,31 +8,28 @@ import com.udalmik.shop.promo.ThirdFreePromo
 import com.udalmik.shop.promo.ThirdHalfPricePromo
 import java.math.BigDecimal
 
-object Main {
+fun main() {
 
-    @JvmStatic
-    fun main(args: Array<String>) {
+    var itemId: Long = 0
 
-        var itemId: Long = 0
+    // Items
+    val rockyRoad = Item(++itemId, "Rocky Road", BigDecimal.valueOf(8))
+    val cookiesAndCream = Item(++itemId, "Cookies & Cream", BigDecimal.valueOf(10))
+    val netflixXChill = Item(++itemId, "Netflix x Chill", BigDecimal.valueOf(12))
 
-        // Items
-        val rockyRoad = Item(++itemId, "Rocky Road", BigDecimal.valueOf(8))
-        val cookiesAndCream = Item(++itemId, "Cookies & Cream", BigDecimal.valueOf(10))
-        val netflixXChill = Item(++itemId, "Netflix x Chill", BigDecimal.valueOf(12))
+    // Promos
+    val staticPromos = mapOf(rockyRoad.id to ThirdFreePromo(), cookiesAndCream.id to ThirdHalfPricePromo())
 
-        // Promos
-        val staticPromos = mapOf(rockyRoad.id to ThirdFreePromo(), cookiesAndCream.id to ThirdHalfPricePromo())
+    val promosService = StaticPromosService(staticPromos)
 
-        val promosService = StaticPromosService(staticPromos)
-
-        // Order Calculator
-        val orderCalculator = OrderCalculator(promosService)
-        val purchases = listOf(
-                Purchase(rockyRoad, 1),
-                Purchase(cookiesAndCream, 3),
-                Purchase(netflixXChill, 2)
-        )
-        val totalOrder = orderCalculator.calculateTotalOrder(PurchaseOrder(purchases))
-        println(totalOrder)
-    }
+    // Order Calculator
+    val orderCalculator = OrderCalculator(promosService)
+    val purchases = listOf(
+            Purchase(rockyRoad, 1),
+            Purchase(cookiesAndCream, 3),
+            Purchase(netflixXChill, 2)
+    )
+    val purchaseOrder = PurchaseOrder(purchases)
+    val totalOrder = orderCalculator.calculateTotalOrder(purchaseOrder)
+    println(totalOrder)
 }

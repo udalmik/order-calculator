@@ -6,6 +6,7 @@ import com.udalmik.shop.promo.PromosService
 import java.math.BigDecimal
 
 class OrderCalculator(private val promosService: PromosService) {
+    
     fun calculateTotalOrder(purchaseOrder: PurchaseOrder): TotalOrder {
         val totalAmount = purchaseOrder.purchases.stream()
                 .map(Purchase::totalPrice)
