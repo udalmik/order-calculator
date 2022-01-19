@@ -5,5 +5,5 @@ import java.math.BigDecimal
 
 @FunctionalInterface
 interface ItemPromo {
-    fun getDiscount(purchase: Purchase): BigDecimal?
+    fun getDiscount(purchase: Purchase): BigDecimal
 }
